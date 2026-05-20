@@ -40,7 +40,7 @@ export function ActionsTable({ type, title }: Props) {
     if (type === "preventiva") {
       const { data: rk } = await supabase.from("risk_matrix").select("action_id, risk_level");
       const r: Record<string, number> = {};
-      (rk ?? []).forEach((x) => (r[x.action_id] = x.risk_level));
+      (rk ?? []).forEach((x) => { if (x.risk_level != null) r[x.action_id] = x.risk_level; });
       setRisks(r);
     }
   };
