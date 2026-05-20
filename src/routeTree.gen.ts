@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedAccionesPreventivasRouteImport } from './routes/_authenticated/acciones-preventivas'
 import { Route as AuthenticatedAccionesCorrectivasRouteImport } from './routes/_authenticated/acciones-correctivas'
 
 const LoginRoute = LoginRouteImport.update({
@@ -28,6 +29,12 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAccionesPreventivasRoute =
+  AuthenticatedAccionesPreventivasRouteImport.update({
+    id: '/acciones-preventivas',
+    path: '/acciones-preventivas',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedAccionesCorrectivasRoute =
   AuthenticatedAccionesCorrectivasRouteImport.update({
     id: '/acciones-correctivas',
@@ -39,10 +46,12 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/login': typeof LoginRoute
   '/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
+  '/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
+  '/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -50,18 +59,20 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/login': typeof LoginRoute
   '/_authenticated/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
+  '/_authenticated/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/acciones-correctivas'
+  fullPaths: '/' | '/login' | '/acciones-correctivas' | '/acciones-preventivas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/acciones-correctivas' | '/'
+  to: '/login' | '/acciones-correctivas' | '/acciones-preventivas' | '/'
   id:
     | '__root__'
     | '/_authenticated'
     | '/login'
     | '/_authenticated/acciones-correctivas'
+    | '/_authenticated/acciones-preventivas'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
@@ -93,6 +104,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/acciones-preventivas': {
+      id: '/_authenticated/acciones-preventivas'
+      path: '/acciones-preventivas'
+      fullPath: '/acciones-preventivas'
+      preLoaderRoute: typeof AuthenticatedAccionesPreventivasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/acciones-correctivas': {
       id: '/_authenticated/acciones-correctivas'
       path: '/acciones-correctivas'
@@ -105,11 +123,13 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteChildren {
   AuthenticatedAccionesCorrectivasRoute: typeof AuthenticatedAccionesCorrectivasRoute
+  AuthenticatedAccionesPreventivasRoute: typeof AuthenticatedAccionesPreventivasRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAccionesCorrectivasRoute: AuthenticatedAccionesCorrectivasRoute,
+  AuthenticatedAccionesPreventivasRoute: AuthenticatedAccionesPreventivasRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
 }
 
