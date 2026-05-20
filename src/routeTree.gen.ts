@@ -9,61 +9,210 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedReportesRouteImport } from './routes/_authenticated/reportes'
+import { Route as AuthenticatedOportunidadesMejoraRouteImport } from './routes/_authenticated/oportunidades-mejora'
+import { Route as AuthenticatedAccionesPreventivasRouteImport } from './routes/_authenticated/acciones-preventivas'
+import { Route as AuthenticatedAccionesCorrectivasRouteImport } from './routes/_authenticated/acciones-correctivas'
+import { Route as AuthenticatedAccionesIdRouteImport } from './routes/_authenticated/acciones.$id'
 
-const IndexRoute = IndexRouteImport.update({
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedReportesRoute = AuthenticatedReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedOportunidadesMejoraRoute =
+  AuthenticatedOportunidadesMejoraRouteImport.update({
+    id: '/oportunidades-mejora',
+    path: '/oportunidades-mejora',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAccionesPreventivasRoute =
+  AuthenticatedAccionesPreventivasRouteImport.update({
+    id: '/acciones-preventivas',
+    path: '/acciones-preventivas',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAccionesCorrectivasRoute =
+  AuthenticatedAccionesCorrectivasRouteImport.update({
+    id: '/acciones-correctivas',
+    path: '/acciones-correctivas',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAccionesIdRoute = AuthenticatedAccionesIdRouteImport.update({
+  id: '/acciones/$id',
+  path: '/acciones/$id',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/login': typeof LoginRoute
+  '/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
+  '/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
+  '/oportunidades-mejora': typeof AuthenticatedOportunidadesMejoraRoute
+  '/reportes': typeof AuthenticatedReportesRoute
+  '/acciones/$id': typeof AuthenticatedAccionesIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
+  '/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
+  '/oportunidades-mejora': typeof AuthenticatedOportunidadesMejoraRoute
+  '/reportes': typeof AuthenticatedReportesRoute
+  '/': typeof AuthenticatedIndexRoute
+  '/acciones/$id': typeof AuthenticatedAccionesIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_authenticated/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
+  '/_authenticated/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
+  '/_authenticated/oportunidades-mejora': typeof AuthenticatedOportunidadesMejoraRoute
+  '/_authenticated/reportes': typeof AuthenticatedReportesRoute
+  '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/acciones/$id': typeof AuthenticatedAccionesIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/acciones-correctivas'
+    | '/acciones-preventivas'
+    | '/oportunidades-mejora'
+    | '/reportes'
+    | '/acciones/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/login'
+    | '/acciones-correctivas'
+    | '/acciones-preventivas'
+    | '/oportunidades-mejora'
+    | '/reportes'
+    | '/'
+    | '/acciones/$id'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/login'
+    | '/_authenticated/acciones-correctivas'
+    | '/_authenticated/acciones-preventivas'
+    | '/_authenticated/oportunidades-mejora'
+    | '/_authenticated/reportes'
+    | '/_authenticated/'
+    | '/_authenticated/acciones/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/': {
+      id: '/_authenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reportes': {
+      id: '/_authenticated/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof AuthenticatedReportesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/oportunidades-mejora': {
+      id: '/_authenticated/oportunidades-mejora'
+      path: '/oportunidades-mejora'
+      fullPath: '/oportunidades-mejora'
+      preLoaderRoute: typeof AuthenticatedOportunidadesMejoraRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/acciones-preventivas': {
+      id: '/_authenticated/acciones-preventivas'
+      path: '/acciones-preventivas'
+      fullPath: '/acciones-preventivas'
+      preLoaderRoute: typeof AuthenticatedAccionesPreventivasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/acciones-correctivas': {
+      id: '/_authenticated/acciones-correctivas'
+      path: '/acciones-correctivas'
+      fullPath: '/acciones-correctivas'
+      preLoaderRoute: typeof AuthenticatedAccionesCorrectivasRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/acciones/$id': {
+      id: '/_authenticated/acciones/$id'
+      path: '/acciones/$id'
+      fullPath: '/acciones/$id'
+      preLoaderRoute: typeof AuthenticatedAccionesIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedAccionesCorrectivasRoute: typeof AuthenticatedAccionesCorrectivasRoute
+  AuthenticatedAccionesPreventivasRoute: typeof AuthenticatedAccionesPreventivasRoute
+  AuthenticatedOportunidadesMejoraRoute: typeof AuthenticatedOportunidadesMejoraRoute
+  AuthenticatedReportesRoute: typeof AuthenticatedReportesRoute
+  AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedAccionesIdRoute: typeof AuthenticatedAccionesIdRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAccionesCorrectivasRoute: AuthenticatedAccionesCorrectivasRoute,
+  AuthenticatedAccionesPreventivasRoute: AuthenticatedAccionesPreventivasRoute,
+  AuthenticatedOportunidadesMejoraRoute: AuthenticatedOportunidadesMejoraRoute,
+  AuthenticatedReportesRoute: AuthenticatedReportesRoute,
+  AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedAccionesIdRoute: AuthenticatedAccionesIdRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
