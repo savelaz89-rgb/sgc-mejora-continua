@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedReportesRouteImport } from './routes/_authenticated/reportes'
 import { Route as AuthenticatedOportunidadesMejoraRouteImport } from './routes/_authenticated/oportunidades-mejora'
 import { Route as AuthenticatedAccionesPreventivasRouteImport } from './routes/_authenticated/acciones-preventivas'
 import { Route as AuthenticatedAccionesCorrectivasRouteImport } from './routes/_authenticated/acciones-correctivas'
@@ -29,6 +30,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedReportesRoute = AuthenticatedReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedOportunidadesMejoraRoute =
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
   '/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
   '/oportunidades-mejora': typeof AuthenticatedOportunidadesMejoraRoute
+  '/reportes': typeof AuthenticatedReportesRoute
   '/acciones/$id': typeof AuthenticatedAccionesIdRoute
 }
 export interface FileRoutesByTo {
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
   '/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
   '/oportunidades-mejora': typeof AuthenticatedOportunidadesMejoraRoute
+  '/reportes': typeof AuthenticatedReportesRoute
   '/': typeof AuthenticatedIndexRoute
   '/acciones/$id': typeof AuthenticatedAccionesIdRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/_authenticated/acciones-correctivas': typeof AuthenticatedAccionesCorrectivasRoute
   '/_authenticated/acciones-preventivas': typeof AuthenticatedAccionesPreventivasRoute
   '/_authenticated/oportunidades-mejora': typeof AuthenticatedOportunidadesMejoraRoute
+  '/_authenticated/reportes': typeof AuthenticatedReportesRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/acciones/$id': typeof AuthenticatedAccionesIdRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/acciones-correctivas'
     | '/acciones-preventivas'
     | '/oportunidades-mejora'
+    | '/reportes'
     | '/acciones/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/acciones-correctivas'
     | '/acciones-preventivas'
     | '/oportunidades-mejora'
+    | '/reportes'
     | '/'
     | '/acciones/$id'
   id:
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/_authenticated/acciones-correctivas'
     | '/_authenticated/acciones-preventivas'
     | '/_authenticated/oportunidades-mejora'
+    | '/_authenticated/reportes'
     | '/_authenticated/'
     | '/_authenticated/acciones/$id'
   fileRoutesById: FileRoutesById
@@ -135,6 +147,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reportes': {
+      id: '/_authenticated/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof AuthenticatedReportesRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/oportunidades-mejora': {
@@ -172,6 +191,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedAccionesCorrectivasRoute: typeof AuthenticatedAccionesCorrectivasRoute
   AuthenticatedAccionesPreventivasRoute: typeof AuthenticatedAccionesPreventivasRoute
   AuthenticatedOportunidadesMejoraRoute: typeof AuthenticatedOportunidadesMejoraRoute
+  AuthenticatedReportesRoute: typeof AuthenticatedReportesRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedAccionesIdRoute: typeof AuthenticatedAccionesIdRoute
 }
@@ -180,6 +200,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedAccionesCorrectivasRoute: AuthenticatedAccionesCorrectivasRoute,
   AuthenticatedAccionesPreventivasRoute: AuthenticatedAccionesPreventivasRoute,
   AuthenticatedOportunidadesMejoraRoute: AuthenticatedOportunidadesMejoraRoute,
+  AuthenticatedReportesRoute: AuthenticatedReportesRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedAccionesIdRoute: AuthenticatedAccionesIdRoute,
 }
