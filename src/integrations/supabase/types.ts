@@ -14,16 +14,381 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      action_plans: {
+        Row: {
+          action_id: string
+          completion_date: string | null
+          created_at: string
+          due_date: string | null
+          evidence_url: string | null
+          id: string
+          responsible: string | null
+          status: Database["public"]["Enums"]["task_status"]
+          task_description: string
+        }
+        Insert: {
+          action_id: string
+          completion_date?: string | null
+          created_at?: string
+          due_date?: string | null
+          evidence_url?: string | null
+          id?: string
+          responsible?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          task_description: string
+        }
+        Update: {
+          action_id?: string
+          completion_date?: string | null
+          created_at?: string
+          due_date?: string | null
+          evidence_url?: string | null
+          id?: string
+          responsible?: string | null
+          status?: Database["public"]["Enums"]["task_status"]
+          task_description?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_plans_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      actions: {
+        Row: {
+          area: string | null
+          code: string
+          created_at: string
+          created_by: string | null
+          description: string
+          detected_by: string | null
+          detection_date: string
+          due_date: string | null
+          expected_benefit: string | null
+          id: string
+          parent_action_id: string | null
+          priority: Database["public"]["Enums"]["action_priority"]
+          process: string | null
+          source: Database["public"]["Enums"]["action_source"]
+          status: Database["public"]["Enums"]["action_status"]
+          title: string
+          type: Database["public"]["Enums"]["action_type"]
+          updated_at: string
+        }
+        Insert: {
+          area?: string | null
+          code: string
+          created_at?: string
+          created_by?: string | null
+          description: string
+          detected_by?: string | null
+          detection_date?: string
+          due_date?: string | null
+          expected_benefit?: string | null
+          id?: string
+          parent_action_id?: string | null
+          priority?: Database["public"]["Enums"]["action_priority"]
+          process?: string | null
+          source: Database["public"]["Enums"]["action_source"]
+          status?: Database["public"]["Enums"]["action_status"]
+          title: string
+          type: Database["public"]["Enums"]["action_type"]
+          updated_at?: string
+        }
+        Update: {
+          area?: string | null
+          code?: string
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          detected_by?: string | null
+          detection_date?: string
+          due_date?: string | null
+          expected_benefit?: string | null
+          id?: string
+          parent_action_id?: string | null
+          priority?: Database["public"]["Enums"]["action_priority"]
+          process?: string | null
+          source?: Database["public"]["Enums"]["action_source"]
+          status?: Database["public"]["Enums"]["action_status"]
+          title?: string
+          type?: Database["public"]["Enums"]["action_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "actions_parent_action_id_fkey"
+            columns: ["parent_action_id"]
+            isOneToOne: false
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      activity_log: {
+        Row: {
+          action_id: string
+          activity: string
+          created_at: string
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          action_id: string
+          activity: string
+          created_at?: string
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          action_id?: string
+          activity?: string
+          created_at?: string
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "activity_log_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      code_counters: {
+        Row: {
+          counter: number
+          type: Database["public"]["Enums"]["action_type"]
+          year: number
+        }
+        Insert: {
+          counter?: number
+          type: Database["public"]["Enums"]["action_type"]
+          year: number
+        }
+        Update: {
+          counter?: number
+          type?: Database["public"]["Enums"]["action_type"]
+          year?: number
+        }
+        Relationships: []
+      }
+      effectiveness_verification: {
+        Row: {
+          action_id: string
+          close_date: string | null
+          comments: string | null
+          created_at: string
+          id: string
+          recurrence: boolean
+          result: Database["public"]["Enums"]["verification_result"] | null
+          verification_date: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          action_id: string
+          close_date?: string | null
+          comments?: string | null
+          created_at?: string
+          id?: string
+          recurrence?: boolean
+          result?: Database["public"]["Enums"]["verification_result"] | null
+          verification_date?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          action_id?: string
+          close_date?: string | null
+          comments?: string | null
+          created_at?: string
+          id?: string
+          recurrence?: boolean
+          result?: Database["public"]["Enums"]["verification_result"] | null
+          verification_date?: string | null
+          verified_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "effectiveness_verification_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: true
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          area: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          area?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          area?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      risk_matrix: {
+        Row: {
+          action_id: string
+          created_at: string
+          id: string
+          impact: number
+          probability: number
+          risk_level: number | null
+        }
+        Insert: {
+          action_id: string
+          created_at?: string
+          id?: string
+          impact: number
+          probability: number
+          risk_level?: number | null
+        }
+        Update: {
+          action_id?: string
+          created_at?: string
+          id?: string
+          impact?: number
+          probability?: number
+          risk_level?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "risk_matrix_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: true
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      root_cause_analysis: {
+        Row: {
+          action_id: string
+          created_at: string
+          eight_d: Json | null
+          fishbone_categories: Json | null
+          id: string
+          method: Database["public"]["Enums"]["rca_method"]
+          root_cause: string | null
+          why1: string | null
+          why2: string | null
+          why3: string | null
+          why4: string | null
+          why5: string | null
+        }
+        Insert: {
+          action_id: string
+          created_at?: string
+          eight_d?: Json | null
+          fishbone_categories?: Json | null
+          id?: string
+          method?: Database["public"]["Enums"]["rca_method"]
+          root_cause?: string | null
+          why1?: string | null
+          why2?: string | null
+          why3?: string | null
+          why4?: string | null
+          why5?: string | null
+        }
+        Update: {
+          action_id?: string
+          created_at?: string
+          eight_d?: Json | null
+          fishbone_categories?: Json | null
+          id?: string
+          method?: Database["public"]["Enums"]["rca_method"]
+          root_cause?: string | null
+          why1?: string | null
+          why2?: string | null
+          why3?: string | null
+          why4?: string | null
+          why5?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "root_cause_analysis_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: true
+            referencedRelation: "actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_user_role: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["app_role"]
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      next_action_code: {
+        Args: { _type: Database["public"]["Enums"]["action_type"] }
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      action_priority: "alta" | "media" | "baja"
+      action_source:
+        | "auditoria"
+        | "cliente"
+        | "proceso"
+        | "inspeccion"
+        | "riesgo"
+        | "direccion"
+      action_status: "abierta" | "en_proceso" | "cerrada" | "vencida"
+      action_type: "correctiva" | "preventiva" | "mejora"
+      app_role: "administrador" | "responsable" | "auditor"
+      rca_method: "5_porques" | "ishikawa" | "8d"
+      task_status: "pendiente" | "en_proceso" | "completada"
+      verification_result: "eficaz" | "no_eficaz"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +515,22 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      action_priority: ["alta", "media", "baja"],
+      action_source: [
+        "auditoria",
+        "cliente",
+        "proceso",
+        "inspeccion",
+        "riesgo",
+        "direccion",
+      ],
+      action_status: ["abierta", "en_proceso", "cerrada", "vencida"],
+      action_type: ["correctiva", "preventiva", "mejora"],
+      app_role: ["administrador", "responsable", "auditor"],
+      rca_method: ["5_porques", "ishikawa", "8d"],
+      task_status: ["pendiente", "en_proceso", "completada"],
+      verification_result: ["eficaz", "no_eficaz"],
+    },
   },
 } as const
